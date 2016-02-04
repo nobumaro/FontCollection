@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>FontCollection</title>
+  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="stylesheets/haiku.css">
+</head>
+<body>
+  
+	<!--Main Start-->
+  <% if current_user %>
+  
+    <!--Header Start-->
+    <header id="intro">
+  		<div class="container">
+  			<div class="table">
+  				<div class="header-text">
+  					<div class="row">
+  						<div class="col-md-12 text-center">
+  							<h1 class="white typed">TimeLine</h1>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</header>
+  	<!--Header End-->
+	
+    <% if @error %>
+      <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <%= @error %>
+      </div>
+    <% end %>
+    
+    <!-- Post Modal Button Start  -->
+    <button type="button" class="btn btn-danger btn-lg center-block" data-toggle="modal" data-target="#postModal">
+    Share
+    </button>
+    <!-- Post Modal Button End  -->
+  
+  
+    <!---Post Modal Start--->
+    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">投稿</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/review/create" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="title">タイトル</label>
+                <input id="title" class="form-control" type="text" name="title" />
+              </div>
+              <div class="form-group">
+                <label for="body">テキスト</label>
+                <textarea id="body" class="form-control" name="body"cols="30" rows="10"></textarea>
+              </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                <button type="submit" class="btn btn-primary pull- right">投稿</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <!---Post Modal End--->
+  
+    <!---TimeLine Start--->
+    <div class="row">
+      <h1 class="page-header">Every Favorite Font</h1>
+    </div>
+    <div class="row">
+        <% @reviews.each do |review| %>
+        <div class="col-md-6">
+          <article id="box">
+          <ul class="panel panel-primary">
+            <div class="row">
+              <div class="col-md-12">
+                <h2>
+                  <span class="glyphicon glyphicon-bookmark">
+                  </span> <%=review.title %>
+                </h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12"><%=review.body %></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <a class="pull-right btn-lg" href="/review/<%=review.id %>" role="button" data-toggle="modal" >
+                  <span class="glyphicon glyphicon-fullscreen"></span>
+                </a>
+              </div>
+            </div>
+          </ul>
+          </article>
+        </div>
+        <% end %>
+      </div>
+    <!---TimeLine End--->
+    <% end %>
+    <!--Main End-->
+    
+</body>
+</html>
